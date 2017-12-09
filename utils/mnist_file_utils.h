@@ -1,6 +1,6 @@
-//
-// Created by smelvinsky on 04.12.17.
-//
+/**
+ * Created by smelvinsky on 04.12.17.
+ */
 
 #ifndef MNIST_UTILS_H
 #define MNIST_UTILS_H

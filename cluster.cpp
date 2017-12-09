@@ -1,6 +1,6 @@
-//
-// Created by smelvinsky on 04.12.17.
-//
+/**
+ * Created by smelvinsky on 04.12.17.
+ */
 
 #include <cmath>
 #include "cluster.h"
@@ -13,6 +13,16 @@ std::vector<MNIST_Object *> Cluster::getObjects()
 void Cluster::pushObject(MNIST_Object *object)
 {
     this->objects.push_back(object);
+}
+
+MNIST_Utils::MNIST_Label Cluster::getLabel()
+{
+    return this->label;
+}
+
+void Cluster::setLabel(MNIST_Utils::MNIST_Label label)
+{
+    this->label = label;
 }
 
 namespace ClusterFunctions
@@ -58,5 +68,68 @@ namespace ClusterFunctions
         }
 
         return *cluster;
+    }
+
+    MNIST_Utils::MNIST_Label getDominantLabel(Cluster *cluster)
+    {
+        int label_count[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int max = 0;
+        MNIST_Utils::MNIST_Label dominantLabel = 255;
+
+        for (int i = 0; i < cluster->getObjects().size(); i++)
+        {
+            label_count[cluster->getObjects()[i]->getMNIST_Label()]++;
+        }
+
+        for (int i = 0; i < 9; i++)
+        {
+            if (label_count[i] >= max)
+            {
+                max = label_count[i];
+                dominantLabel = (MNIST_Utils::MNIST_Label) i;
+            }
+        }
+
+        return dominantLabel;
+    }
+
+    float getLabelPercentageFromCluster(MNIST_Utils::MNIST_Label label, Cluster *cluster)
+    {
+        int labelCount = 0;
+
+        for (int i = 0; i < cluster->getObjects().size(); i++)
+        {
+            if (cluster->getObjects()[i]->getMNIST_Label() == label)
+            {
+                labelCount++;
+            }
+        }
+
+        return (float) labelCount / (cluster->getObjects().size());
+    }
+
+    Cluster *findMatchingCluster(MNIST_Object *object, std::vector<Cluster> &clusters)
+    {
+        /* That's the maximum distance that can be achieved between two MNIST images                      */
+        /* (situation where one image is completely black (255's only) and the second one is white (0's)) */
+        double minDistance = sqrt(pow(255.0,2.0) * (28*28));
+        double minDistance_tmp = minDistance;
+        Cluster *matchingCluster = NULL;
+
+        for (int i = 0; i < clusters.size(); i++)
+        {
+            Cluster *cluster = new Cluster();
+            cluster->pushObject(object);
+
+            minDistance_tmp = calculateMaxDistanceBetweenClusters(cluster, &clusters[i]);
+            if (minDistance_tmp < minDistance)
+            {
+                minDistance = minDistance_tmp;
+                matchingCluster = &clusters[i];
+            }
+            delete cluster;
+        }
+
+        return matchingCluster;
     }
 }

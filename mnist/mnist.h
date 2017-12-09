@@ -6,12 +6,14 @@
 #define CLUSTERING_MNIST_H
 
 /* Training set */
-#define MNIST_TRAINING_SET_IMAGE_FILE_NAME "../data/train-images-idx3-ubyte"
-#define MNIST_TRAINING_SET_LABEL_FILE_NAME "../data/train-labels-idx1-ubyte"
+#define MNIST_TRAINING_SET 0
+#define MNIST_TRAINING_SET_IMAGE_FILE_NAME "./data/train-images-idx3-ubyte"
+#define MNIST_TRAINING_SET_LABEL_FILE_NAME "./data/train-labels-idx1-ubyte"
 
 /* Testing set */
-#define MNIST_TESTING_SET_IMAGE_FILE_NAME "../data/t10k-images-idx3-ubyte"
-#define MNIST_TESTING_SET_LABEL_FILE_NAME "../data/t10k-labels-idx1-ubyte"
+#define MNIST_TESTING_SET 1
+#define MNIST_TESTING_SET_IMAGE_FILE_NAME "./data/t10k-images-idx3-ubyte"
+#define MNIST_TESTING_SET_LABEL_FILE_NAME "./data/t10k-labels-idx1-ubyte"
 
 /* number of images+labels in the TRAINING file */
 #define MNIST_TRAINING_IMAGES_NUM 60000
@@ -37,6 +39,6 @@ class MNIST_Object
         void display();
 };
 
-void initVectorWithMNISTObjects(std::vector<MNIST_Object *> *MNIST_ObjectVector);
+void initVectorWithMNISTObjects(std::vector<MNIST_Object *> *MNIST_ObjectVector, int MNIST_set);
 
 #endif //CLUSTERING_MNIST_H

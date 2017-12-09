@@ -1,6 +1,6 @@
-//
-// Created by smelvinsky on 04.12.17.
-//
+/**
+ * Created by smelvinsky on 04.12.17.
+ */
 
 #include <cstdlib>
 #include <cstring>
