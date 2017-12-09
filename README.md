@@ -2,7 +2,7 @@
 
 A simple **MNIST** handwritten digits recognition example using **complete-linkage clustering** algorithm.
 
-For mor info about MNIST:
+For more info about MNIST:
 http://yann.lecun.com/exdb/mnist/
 
 <img src="https://www.researchgate.net/profile/Amaury_Lendasse/publication/264273647/figure/fig1/AS:295970354024489@1447576239974/Fig-18-0-9-Sample-digits-of-MNIST-handwritten-digit-database.png" width="400">
