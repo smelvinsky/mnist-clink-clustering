@@ -92,35 +92,7 @@ int main(int argc, char **argv)
     /* Clustering part (Using Complete Linkage Clustering Algorithm) */
     while (clusters.size() > endingNumOfClusters)
     {
-        /* choose two clusters to merge by calculating max Euclidean distance between clusters */
-        DistanceMatrixDataStruct distanceMatrixDataStruct{ .cluster_x = 0,
-                                                           .cluster_y = 1,
-                                                           .distance = ClusterFunctions::calculateMaxDistanceBetweenClusters(&clusters[0], &clusters[1])};
-
-        int y_tmp = 2;  //this variable is used to skip redundant searching (only half of the matrix is used)
-        double dist_tmp;
-
-        /* Calculating distances (loop) */
-        for (int i = 1; i < clusters.size(); i++)
-        {
-            for (int j = y_tmp; j < clusters.size(); j++)
-            {
-                dist_tmp = ClusterFunctions::calculateMaxDistanceBetweenClusters(&clusters[i], &clusters[j]);
-
-                if (dist_tmp < distanceMatrixDataStruct.distance)
-                {
-                    distanceMatrixDataStruct.distance = dist_tmp;
-                    distanceMatrixDataStruct.cluster_x = (uint32_t) i;
-                    distanceMatrixDataStruct.cluster_y = (uint32_t) j;
-                }
-
-                #ifdef PROGRESS_DEBUG
-                std::cout << "Part " << trainingObjectsToLoad - clusters.size() + 1 << " of " << trainingObjectsToLoad - endingNumOfClusters
-                          << " - " << 100.0 * (i * clusters.size() + j) / (clusters.size() * (clusters.size() - 1)) << " % \r" << std::flush ;
-                #endif
-            }
-            y_tmp++;
-        }
+        DistanceMatrixDataStruct distanceMatrixDataStruct = ClusterFunctions::choseClustersToMerge(clusters);
 
         /* Merge chosen clusters */
         std::vector<Cluster> clusters_tmp = clusters;

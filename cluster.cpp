@@ -5,6 +5,8 @@
 #include <cmath>
 #include "cluster.h"
 
+//#define PROGRESS_DEBUG
+
 std::vector<MNIST_Object *> Cluster::getObjects()
 {
     return this->objects;
@@ -131,5 +133,42 @@ namespace ClusterFunctions
         }
 
         return matchingCluster;
+    }
+
+    DistanceMatrixDataStruct choseClustersToMerge(std::vector<Cluster> clusters)
+    {
+        std::vector<Cluster> clusters_1 = clusters;
+
+        /* choose two clusters to merge by calculating max Euclidean distance between clusters */
+        DistanceMatrixDataStruct distanceMatrixDataStruct{ .cluster_x = 0,
+                .cluster_y = 1,
+                .distance = ClusterFunctions::calculateMaxDistanceBetweenClusters(&clusters_1[0], &clusters_1[1])};
+
+        int y_tmp = 2;  //this variable is used to skip redundant searching (only half of the matrix is used)
+        double dist_tmp;
+
+        /* Calculating distances (loop) */
+        for (int i = 1; i < clusters_1.size(); i++)
+        {
+            for (int j = y_tmp; j < clusters_1.size(); j++)
+            {
+                dist_tmp = ClusterFunctions::calculateMaxDistanceBetweenClusters(&clusters_1[i], &clusters_1[j]);
+
+                if (dist_tmp < distanceMatrixDataStruct.distance)
+                {
+                    distanceMatrixDataStruct.distance = dist_tmp;
+                    distanceMatrixDataStruct.cluster_x = (uint32_t) i;
+                    distanceMatrixDataStruct.cluster_y = (uint32_t) j;
+                }
+
+                #ifdef PROGRESS_DEBUG
+                std::cout << "Part " << trainingObjectsToLoad - clusters.size() + 1 << " of " << trainingObjectsToLoad - endingNumOfClusters
+                          << " - " << 100.0 * (i * clusters.size() + j) / (clusters.size() * (clusters.size() - 1)) << " % \r" << std::flush ;
+                #endif
+            }
+            y_tmp++;
+        }
+
+        return distanceMatrixDataStruct;
     }
 }

@@ -46,6 +46,8 @@ namespace ClusterFunctions
     MNIST_Utils::MNIST_Label getDominantLabel(Cluster *cluster);
     float getLabelPercentageFromCluster(MNIST_Utils::MNIST_Label label, Cluster *cluster);
     Cluster *findMatchingCluster(MNIST_Object *object, std::vector<Cluster> &clusters);
+
+    DistanceMatrixDataStruct choseClustersToMerge(std::vector<Cluster> clusters);
 }
 
 #endif //CLUSTER_H
