@@ -5,7 +5,7 @@ A simple **MNIST** handwritten digits recognition example using **complete-linka
 For more info about MNIST:
 http://yann.lecun.com/exdb/mnist/
 
-<img src="https://www.researchgate.net/profile/Amaury_Lendasse/publication/264273647/figure/fig1/AS:295970354024489@1447576239974/Fig-18-0-9-Sample-digits-of-MNIST-handwritten-digit-database.png" width="400">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/MnistExamples.png/220px-MnistExamples.png" width="400">
 
 ## Compile and run the source code
 
